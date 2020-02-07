@@ -4,7 +4,8 @@ import datetime as dt
 
 # Create your views here.
 def welcome(request):
-    return HttpResponse('Welcome to Le`Insta')
+    return render(request, 'welcome.html')
+
 def post_today(request):
     date = dt.date.today()
     # images = Image.get_images()
