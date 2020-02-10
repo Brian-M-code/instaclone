@@ -3,8 +3,8 @@ from django.http  import HttpResponse, Http404
 import datetime as dt
 
 # Create your views here.
-def welcome(request):
-    return render(request, 'welcome.html')
+def index(request):
+    return render(request, 'index.html')
 
 def post_today(request):
     date = dt.date.today()
@@ -29,7 +29,7 @@ def past_post(request,past_date):
         # Converts data from the string Url
         date = dt.datetime.strptime(past_date,'%Y-%m-%d').date()
 
-        except ValueError:
+    except ValueError:
         # Raise 404 error when ValueError is thrown
         raise Http404()
         assert False
