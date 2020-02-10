@@ -4,11 +4,12 @@
 {% block content %}
 {% for user in user%}
   <div class="container">
-    <img class="rounded-circle" src="{{user.profile.avatar.cdn_url}}" alt="avatar" height="100" width="100">
     <p><b>{{user.username}}</b></p>
     <p><i>{{ user.profile.bio }}</i></p>
     <hr>
     {% for post in posts %}
+    <img class="rounded-circle" src="{{post.profile.avatar.url}}" alt="avatar" height="100" width="100">
+
     <div class="container">
       <div class="row">
         <div class="col-md-3 col-sm-3">
@@ -16,7 +17,7 @@
         </div>
         <div class="col-md-6 col-sm-6 myimages">
           <div>
-            <img class="img-thumbnail" src="{{post.image.cdn_url}}" alt="users posts" height="600" width="600">
+            <img class="img-thumbnail" src="{{post.image.url}}" alt="users posts" height="600" width="600">
             <p>{{post.caption}}</p>
           </div>
         </div>
