@@ -24,3 +24,11 @@ class ProfileTestClass(TestCase):
     def test_single_profile(self, id):
         i_profile = Profile.single_profile(id=id)
         self.assertTrue(i_profile is not None)
+        
+class UserTestClass(TestCase):
+    def setUp(self):
+        self.user = User(first_name="Brian", last_name="Mutuma",
+                         username="brianmutuma", email="mutuma@gmail.com",)
+
+    def test_instance(self):
+        self.assertTrue(isinstance(self.user, User))

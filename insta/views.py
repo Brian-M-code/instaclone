@@ -1,12 +1,33 @@
 from django.shortcuts import render
 from django.http  import HttpResponse, Http404
-import datetime as dt
+from .models import Image, Profile, Comments
+from .forms import UploadForm,ProfileUpdateForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
-    return render(request, 'index.html')
+    posts=Image.objects.all()[::-1]
+    current_profile=Profile.objects.exclude(id=request.user.id)
+    upload_form = UploadForm(request.POST, request.FILES)
+    comment_form = CommentForm(request.POST, request.FILES)
+    if upload_form.is_valid():
+        upload = upload_form.save(commit=False)
+        upload.user = request.user
+        upload.save()
+        return HttpResponseRedirect(request.path_info)
+    else:
+        upload_form = UploadForm()
+        comment_form = CommentForm()
+
+    context ={
+        'posts':posts,
+        'upload_form':upload_form,
+        'comment_form': comment_form,
+        'user':current_profile,
+    }
+    return render(request, 'index.html', context)
 
 def search_user(request):
     if request.method == "GET":
