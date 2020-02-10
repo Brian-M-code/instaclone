@@ -1,10 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
-    avatar = ImageField(manual_crop='', null=True)
+    avatar = models.ImageField(blank=True,upload_to='prof_pics',default='default.png')
     bio = models.CharField(max_length=200)
+    followers= models.ManyToManyField(User,related_name='followers', blank=True)
+    following= models.ManyToManyField(User,related_name='following', blank=True)
+    objects = models.Manager()
 
     def __str__(self):
         return self.user.username
@@ -43,4 +47,12 @@ class Image(models.Model):
     @classmethod
     def get_single_img(cls, id):
         one_img=cls.objects.filter(id=id)
+        
+class Comments(models.Model):
+    comment = models.TextField(blank=True)
+    image = models.ForeignKey(Image)
+    user = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.comment
 
