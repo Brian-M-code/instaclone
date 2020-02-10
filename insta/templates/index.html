@@ -4,11 +4,33 @@
 {{block.super}}
 
 <!--Upload Modal -->
-<div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Post an image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" action="{% url 'homePage' %}" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form upload_form %}
+                    <input class="btn btn-outline-success" type="submit" name="" value="Upload">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fin -->
+<!-- Comment Modal -->
+<div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Post an image</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add a Comment</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -16,13 +38,13 @@
         <div class="modal-body">
           <form class="form-group" action="{% url 'homePage' %}" method="post">
             {% csrf_token %}
-            {% bootstrap_form upload_form %}
-            <input class="btn btn-outline-success" type="submit" name="" value="Upload">
+            {% bootstrap_form comment_form %}
+            <input class="btn btn-outline-success" type="submit" name="" value="Comment">
           </form>
         </div>
       </div>
     </div>
     </div>
     <!-- fin -->
-{% endblock %}
 
+{% endblock %}
