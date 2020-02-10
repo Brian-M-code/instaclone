@@ -20,4 +20,27 @@ class Profile(models.Model):
     def single_profile(cls, id):
         single_profile = cls.objects.filter(id=id)
         return single_profile
+    
+class Image(models.Model):
+    image = models.ImageField(null=True)
+    name = models.CharField(max_length=30)
+    caption = models.TextField(blank=True)
+    likes = models.IntegerField(default=0)
+    profile = models.ForeignKey(Profile, null=True)
+    user = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.name
+
+    def save_image(self):
+        self.save()
+
+    @classmethod
+    def get_all_images(cls):
+        all_images=cls.objects.all()
+        return all_images
+
+    @classmethod
+    def get_single_img(cls, id):
+        one_img=cls.objects.filter(id=id)
 
