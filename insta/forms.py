@@ -10,3 +10,8 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ['user']
+        
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        exclude = ['image', 'user']
