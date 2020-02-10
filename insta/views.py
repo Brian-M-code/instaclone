@@ -29,6 +29,27 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def profile(request):
+    current_user = request.user
+    current_profile = Profile.objects.get(user=request.user)
+    users_posts = Image.objects.filter(user=request.user)[::-1]
+    update_form = ProfileUpdateForm(request.POST, instance=request.user)
+    if request.method == "POST":
+        if update_form.is_valid():
+            update = update_form.save(commit=False)
+            update.user = current_user
+            update.save
+            return HttpResponseRedirect(request.path_info)
+    else:
+        update_form = ProfileUpdateForm()
+    context={
+        'user':current_user,
+        'profile':current_profile,
+        'posts':users_posts,
+        'form':update_form,
+    }
+    return render(request, 'profile.html', locals())
+
 def search_user(request):
     if request.method == "GET":
         search_term = request.GET.get('search')
