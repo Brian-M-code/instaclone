@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http  import HttpResponse, Http404
 import datetime as dt
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def index(request):
     return render(request, 'index.html')
 
