@@ -32,3 +32,28 @@ class UserTestClass(TestCase):
 
     def test_instance(self):
         self.assertTrue(isinstance(self.user, User))
+        
+class ImageTestClass(TestCase):
+    def setUp(self):
+        self.user = User(first_name="Brian", last_name="Mutuma",
+                         username="brianmutuma", email="mutuma@gmail.com",)
+        
+        self.new_image = Image(id ='', name = 'art', caption = 'nairobi' user = self.brian)
+        self.new_image.save()
+    
+    def test_save_method(self):
+        self.new_image.save_image()
+        image = Image.objects.all()
+        self.assertTrue(len(images) > 0)
+        
+    def test_delete_method(self):
+        self.new_image.save_image()
+        self.new_image.delete_image()
+        image = Image.objects.all()
+        self.assertTrue(len(images) == 0)
+        
+    def test_update_method(self):
+        self.new_image.save_image()
+        self.new_image.update_caption()
+        image = Image.objects.all()
+        self.assertTrue(len(images) == 0)

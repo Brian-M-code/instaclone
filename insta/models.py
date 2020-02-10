@@ -39,6 +39,13 @@ class Image(models.Model):
 
     def save_image(self):
         self.save()
+        
+    def delete_image(self):
+        self.delete()
+        
+    def upload_caption(self):
+        self.update()
+    
 
     @classmethod
     def get_all_images(cls):
