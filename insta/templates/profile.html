@@ -26,7 +26,7 @@
 
 <div class="container">
     {% if user.profile.avatar %}
-    <img class="rounded-circle" src="{{user.profile.avatar.cdn_url}}" alt="avatar" height="100" width="100">
+    <img class="rounded-circle" src="{{profile.avatar.url}}" alt="avatar" height="100" width="100">
     {% else %}
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwuFjKKPiB59OHKPCvIydOhg7vd16ODbzqFyvmC4S-YSdiyW3d&s" alt="avatar_alt">
     {% endif %}

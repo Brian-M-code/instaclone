@@ -1,5 +1,5 @@
-{%extends 'base.html'%}
-{% load bootstrap3 %}
+{% extends 'base.html'%}
+<!-- {% load bootstrap3 %} -->
 
 {% block content %}
 {{block.super}}
@@ -60,13 +60,13 @@
             <div class="card mb-2">
                 <div class="card-header">
                     <div class="row">
-                        <img class="rounded-circle" src="{{user.profile.avatar.cdn_url}}" alt="avatar" height="50"
+                        <img class="rounded-circle" src="{{post.profile.avatar.url}}" alt="avatar" height="50"
                             width="50">
-                        <p class="ml-3"><b>{{ user.username }}</b></p>
+                        <p class="ml-3"><b>{{ post.user}}</b></p>
                     </div>
                 </div>
                 <div class="card-body">
-                    <img class="card-img" src="{{post.image.cdn_url}}" alt="" height="600" width="600">
+                    <img class="card-img" src="{{post.image.url}}" alt="" height="600" width="600">
                     <hr>
                     <a href="{% url 'homePage' %}"><button class="btn p-0" type="button" name="button"><img class="m-0"
                                 src="https://cdn2.iconfinder.com/data/icons/media-player-ui/512/Media-Icon-25-512.png"
