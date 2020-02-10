@@ -1,0 +1,63 @@
+{% extends 'base.html'%}
+{% load bootstrap3 %}
+
+{% block content %}
+{{ block.super }}
+<!-- My Modals -->
+<div class="modal fade" id="updateForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Update you profile.</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="form-group" action="{% url 'userProfile' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form update_form %}
+        <input class="btn btn-outline-success" type="submit" name="" value="Update">
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+    {% if user.profile.avatar %}
+    <img class="rounded-circle" src="{{user.profile.avatar.cdn_url}}" alt="avatar" height="100" width="100">
+    {% else %}
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwuFjKKPiB59OHKPCvIydOhg7vd16ODbzqFyvmC4S-YSdiyW3d&s" alt="avatar_alt">
+    {% endif %}
+
+    <p><b>{{ user.username }}</b></p>
+
+    {% if user.profile.bio %}
+    <p>{{ user.profile.bio }}</p>
+    {% else %}
+    <p>Edit profile to put a bio.</p>
+    {% endif %}
+    <button class="btn btn-light" type="button" name="button" data-toggle="modal" data-target="#updateForm" >Edit Profile</button>
+    <hr>
+    {% for post in users_posts %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-3">
+
+        </div>
+        <div class="col-md-6 col-sm-6 myimages">
+          <div>
+            <img class="img-thumbnail" src="{{post.image.cdn_url}}" alt="users posts" height="600" width="600">
+            <p>{{post.caption}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
