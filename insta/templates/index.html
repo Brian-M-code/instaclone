@@ -2,6 +2,27 @@
 
 {% block content %}
 {{block.super}}
+
+<!--Upload Modal -->
+<div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Post an image</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-group" action="{% url 'homePage' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form upload_form %}
+            <input class="btn btn-outline-success" type="submit" name="" value="Upload">
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- fin -->
 {% endblock %}
 
-<h1>Welcome to Le`Insta</h1>
