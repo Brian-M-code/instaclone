@@ -21,6 +21,27 @@
     </div>
     <!-- search form end -->
 
+    {% if user.is_authenticated %}
+      <div class="container">
+        <div class="row">
+          <img data-toggle="modal" data-target="#uploadForm" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFKnaHO9I8t2pISe4wuoPQBm9Yx9O-BwBznIUrl6TS2Jb0M502&s" alt="account" height="40" width="40">
+          <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="https://cdn2.iconfinder.com/data/icons/instagram-ui/48/jee-74-512.png" alt="account" height="40" width="40"></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a href="{%url 'userProfile'%}" class="dropdown-item">Profile</a>
+              <hr>
+              <a href="/logout" class="dropdown-item">Logout</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      {% else %}
+      <img data-toggle="modal" data-target="#uploadForm" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFKnaHO9I8t2pISe4wuoPQBm9Yx9O-BwBznIUrl6TS2Jb0M502&s" class="m-2" alt="account" height="40" width="40">
+      <a href="/accounts/login"><img src="https://cdn2.iconfinder.com/data/icons/instagram-ui/48/jee-74-512.png" alt="account" height="40" width="40"></a>
+      {% endif %}
+    </div>
+
   </div>
 </nav>
 </body>
