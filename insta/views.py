@@ -4,11 +4,13 @@ from .models import Image, Profile, Comments
 from .forms import UploadForm,ProfileUpdateForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from vote.managers import VotableManager
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request, **kwargs):
     posts=Image.objects.all()[::-1]
+    
     current_profile=Profile.objects.exclude(id=request.user.id)
     upload_form = UploadForm(request.POST, request.FILES)
     comment_form = CommentForm(request.POST, request.FILES)
@@ -52,6 +54,25 @@ def profile(request):
     }
     return render(request, 'profile.html', locals())
 
+def add_comment(request,id):
+    
+    current_user = request.user
+    image = Image.get_single_photo(id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        print(form)
+        
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = current_user
+            comment.image_id = id
+            comment.save()
+        return redirect('home')
+
+    else:
+        form = CommentForm()
+        return render(request,'new_comment.html',{"form":form,"image":image})
+
 
 @login_required(login_url='/accounts/login/')
 def search_user(request):
@@ -73,11 +94,11 @@ def search_user(request):
 
     return render(request, 'searchh.html',context)
 
-def comments(request,id):
-    comments = Comments.get_comments(id)
+def comment(request,id):
+    comment = Comment.get_comments(id)
     number = len(comments   )
     
-    return render(request,'comments.html',{"comments":comments,"number":number})
+    return render(request,'comment.html',{"comments":comments,"number":number})
 
 @login_required (login_url='/accounts/register/')          
 def like_images(request,id):

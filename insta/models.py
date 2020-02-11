@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from vote.models import VoteModel
 
 
 # Create your models here.
@@ -43,8 +44,12 @@ class Image(models.Model):
     def delete_image(self):
         self.delete()
         
-    def upload_caption(self):
-        self.update()
+    @classmethod    
+    def update_caption(cls,id,new_caption):
+        cls.objects.filter(pk = id ).update(image_caption = new_caption)
+        new_caption_object = cls.objects.get(image_caption=new_caption)
+        new_caption = new_caption_object.image_caption
+        return new_caption
     
 
     @classmethod
@@ -60,6 +65,14 @@ class Comments(models.Model):
     comment = models.TextField(blank=True)
     image = models.ForeignKey(Image)
     user = models.ForeignKey(User)
+    
+    @classmethod
+    def get_comments(cls,id):
+        comment = cls.objects.filter(image__id=id)
+        return comment
+    
+    def save_comment(self):
+        self.save()
 
     def __str__(self):
         return self.comment
