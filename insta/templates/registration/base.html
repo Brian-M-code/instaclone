@@ -23,14 +23,12 @@
 <body>
   <header>
     <div class="nav-right">
-    <a href="{% url 'post_new' %}">+ New Post</a>
+      {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+      {% else %}
+      <p>You are not logged in.</p>
     </div>
-    </header>
-    {% if user.is_authenticated %}
-    <p>Hi {{ user.username }}!</p>
-    {% else %}
-    <p>You are not logged in.</p>
-    <a href="{% url 'login' %}">Log In</a>
+  </header>
     {% endif %}
 
   {% block content %} 
