@@ -27,7 +27,7 @@ class Profile(models.Model):
         single_profile = cls.objects.filter(id=id)
         return single_profile
     
-class Image(models.Model):
+class Image(VoteModel,models.Model):
     image = models.ImageField(null=True)
     name = models.CharField(max_length=30)
     caption = models.TextField(blank=True)
