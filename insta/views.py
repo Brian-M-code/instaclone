@@ -74,7 +74,6 @@ def add_comment(request,id):
         return render(request,'new_comment.html',{"form":form,"image":image})
 
 
-@login_required(login_url='/accounts/login/')
 def search_user(request):
     if request.method == "GET":
         search_term = request.GET.get('search')
@@ -112,3 +111,20 @@ def like_images(request,id):
         image.save()
         
     return redirect('home')
+
+def follow(request,user_id):
+    res = AjaxFollow(request.Get,request.user)
+    context = { 'ajax_output': ajax_output()}
+    return render(request,'profile.html',context)
+
+@login_required(login_url='/accounts/login/')
+def following(request, username):
+    user = User.objects.get(username=username)
+    user_profile = Profile.objects.get(user=user)
+    profiles = user_profile.following.all
+
+    context = {
+        'header': 'Following',
+        'profiles': profiles
+    }
+    return render(request, 'instagram/follow_list.html', context)
