@@ -23,12 +23,7 @@ This is a clone of Instagram. You can post, comment and view pictures posted on 
 - Users can view a picture and leave a comment on it.
 
 ## Installion and Setup instructions
-* To view the app.Visit -> Le`Gram
-
-- Clone this repo: git clone ### Installing
-*** To view the app.Visit -> Le`Gram
-
-- Clone this repo: git clone https://github.com/   brian-m-code/instaclone.git.
+- Clone this repo: git clone https://github.com/brian-m-code/instaclone.git.
 
 - The repo comes in a zipped or compressed format. Extract to your prefered location and open it.
 
