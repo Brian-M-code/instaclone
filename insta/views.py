@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from vote.managers import VotableManager
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
+#  @login_required(login_url='/accounts/login/')
 def index(request, **kwargs):
     posts=Image.objects.all()[::-1]
     
@@ -56,7 +56,7 @@ def login(request):
             return render(request, "login", {'form': form})
 
 
-@login_required(login_url='/accounts/login/')
+# @login_required(login_url='/accounts/login/')
 def profile(request):
     current_user = request.user
     current_profile = Profile.objects.get(user=request.user)
@@ -141,7 +141,7 @@ def follow(request,user_id):
     context = { 'ajax_output': ajax_output()}
     return render(request,'profile.html',context)
 
-@login_required(login_url='/accounts/login/')
+# @login_required(login_url='/accounts/login/')
 def following(request, username):
     user = User.objects.get(username=username)
     user_profile = Profile.objects.get(user=user)

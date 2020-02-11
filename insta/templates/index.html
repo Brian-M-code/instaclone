@@ -1,92 +1,83 @@
 {% extends 'base.html'%}
-<!-- {% load bootstrap3 %} -->
-
-{% block content %}
+{% load bootstrap3 %}
+{% block content%}
 {{block.super}}
-
-<!--Upload Modal -->
-<div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Post an image</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3"></div><!--empty-->
+            <div class="col-sm-6">
+                <div class="col-md-6">
+                {% for post in posts%}
+                    <div class="card" style="margin-top:5%;margin-bottom:2%;">
+                        <div class="card-header">
+                            {% if post.user.profile.profile_photo%}
+                                <a><img class="rounded-circle" src="{{post.profile.avatar.url}}"
+                                        style="height:80px;width: 80px;" alt="My profile image">
+                                    <strong style="font-size:19px;">{{post.user | title}}</strong>
+                                </a>
+                            {% else%}
+                                <a class="fa fa-user fa-3x" style="margin-top:1%"><span
+                                        style="font-size:19px;">{{post | title}}</span>
+                                </a>
+                            {% endif%}
+                        </div>
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="{{post.image.url}}" style="height: 300px; width: 400px;"
+                                type="button" class="btn btn-sm btn-outline-success" id="post{{post.id}}"
+                                data-whatever="{{post.id}}" data-toggle="modal" data-target="#extraModal{{post.id}}">
+                        </div>
+                        <div class="card-footer bg-white">
+                            <p method= "get" action="/"><strong>{{post.user}}</strong> {{post.caption}}</p>
+                            <strong>Comments:</strong>
+                            {% for comment in comments %}
+                                {% if post.id == comment.post.id%}
+                                <p><strong>{{comment.user}}</strong> {{comment.comment | title}}</p>
+                                {% endif%}
+                            {% endfor %}
+                            <form method="post" style="margin-top: 1.3em;">
+                                {{form.comment}}
+                                {% csrf_token %}
+                                <input type="hidden" value="{{post.id}}" name="post_id" />
+                                <button type="get,submit", class="btn btn-primary">Comment</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor%}
+            </div>
+            <div class="col-sm-3"></div><!--empty-->
+        </div>
+        </div>
+        {% for post in posts %}
+            <div class="modal fade" id="extraModal{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-group" action="{% url 'homePage' %}" method="post">
-                    {% csrf_token %}
-                    {% bootstrap_form upload_form %}
-                    <input class="btn btn-outline-success" type="submit" name="" value="Upload">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- fin -->
-
-<!-- Comment Modal -->
-<div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add a Comment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-group" action="{% url 'homePage' %}" method="post">
-                    {% csrf_token %}
-                    {% bootstrap_form comment_form %}
-                    <input class="btn btn-outline-success" type="submit" name="" value="Comment">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- fin -->
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-3 col-sm-3">
-
-        </div>
-        <div class="col-md-6 col-sm-6">
-            {% for post in posts %}
-            <div class="card mb-2">
-                <div class="card-header">
-                    <div class="row">
-                        <img class="rounded-circle" src="{{post.profile.avatar.url}}" alt="avatar" height="50"
-                            width="50">
-                        <p class="ml-3"><b>{{ post.user}}</b></p>
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                    <div class="modal-content ">
+                        <div class="modal-body row" style="padding:0;">
+                            <img style="height: 500px;padding:0;margin: 0;" id="image" class=" col-sm-12 col-md-7 text-center"
+                                src='{{post.image.url}}'>
+                            <div class=" col-sm-12 col-md-5 card">
+                                <div class="card-header bg-white">
+                                    <p><span>Posted by:
+                                        </span><strong>{{post.user| title}}</strong></p>
+                                    <p><span>Caption:
+                                        </span>{{post.caption}}</p>
+                                </div>
+                                <div class="card-body">
+                                    {% for comment in comments %}
+                                    {% if post.id == comment.post.id%}
+                                    <p><strong>{{comment.user}}</strong> {{comment.comment | title}} <span></span>
+                                        
+                                    {% endif%}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <img class="card-img" src="{{post.image.url}}" alt="" height="600" width="600">
-                    <hr>
-                    <a href="{% url 'homePage' %}"><button class="btn p-0" type="button" name="button"><img class="m-0"
-                                src="https://cdn2.iconfinder.com/data/icons/media-player-ui/512/Media-Icon-25-512.png"
-                                alt="like button" height="50" width="50"></button></a>
-                    <button data-toggle="modal" data-target="#commentForm" class="btn p-0" type="button"
-                        name="button"><img class="m-0"
-                            src="https://cdn0.iconfinder.com/data/icons/instagram-ui-1/24/Instagram-UI_comment-512.png"
-                            alt="comment button" height="30" width="30"></button>
-                    <p>{{post.likes}} likes</p>
-                    <p><b>{{user.user}}</b> {{post.caption}}</p>
-                </div>
             </div>
-            {% endfor %}
-        </div>
-        <div class="col-md-3 col-sm-3">
-
-        </div>
-
+        {% endfor%}
     </div>
-
-</div>
-
-{% endblock %}
+{% endblock%}
