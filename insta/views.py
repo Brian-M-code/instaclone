@@ -29,6 +29,8 @@ def index(request, **kwargs):
     }
     return render(request, 'index.html', context)
 
+
+@login_required(login_url='/accounts/login/')
 def profile(request):
     current_user = request.user
     current_profile = Profile.objects.get(user=request.user)
@@ -50,6 +52,8 @@ def profile(request):
     }
     return render(request, 'profile.html', locals())
 
+
+@login_required(login_url='/accounts/login/')
 def search_user(request):
     if request.method == "GET":
         search_term = request.GET.get('search')
@@ -68,3 +72,22 @@ def search_user(request):
     }
 
     return render(request, 'searchh.html',context)
+
+def comments(request,id):
+    comments = Comments.get_comments(id)
+    number = len(comments   )
+    
+    return render(request,'comments.html',{"comments":comments,"number":number})
+
+@login_required (login_url='/accounts/register/')          
+def like_images(request,id):
+    image =  Image.get_single_photo(id)
+    user = request.user
+    user_id = user.id
+    
+    if user.is_authenticated:
+        uplike = image.votes.up(user_id)
+        image.likes = image.votes.count()
+        image.save()
+        
+    return redirect('home')
