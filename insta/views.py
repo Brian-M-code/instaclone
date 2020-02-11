@@ -3,6 +3,7 @@ from django.http  import HttpResponseRedirect, Http404
 from .models import Image, Profile, Comments
 from .forms import UploadForm,ProfileUpdateForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
 from vote.managers import VotableManager
 
@@ -30,6 +31,29 @@ def index(request, **kwargs):
         'user':current_profile,
     }
     return render(request, 'index.html', context)
+
+def login(request):
+    next_page = request.GET['next']
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(next_page)
+    else:
+        if request.method == 'POST':
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                user = authenticate(email=username, password=password)
+                if user is not None and user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(next_page)
+                else:
+                    error_msg = 'There was an error!'
+                    return render(request, "login", {'form': form, 'error_msg': error_msg})
+            else:
+                error_msg = "There was an error!"
+                return render(request, "login", {'form':form, 'error_msg':error_msg})
+        else:
+            form = LoginForm()
+            return render(request, "login", {'form': form})
 
 
 @login_required(login_url='/accounts/login/')
