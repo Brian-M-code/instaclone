@@ -80,10 +80,6 @@ CSS - For Styling User Interface
 # Contacts
 mutuma.brian@yahoo.com
 
-#### live link
-- https://mugram.herokuapp.com/
-
-
 # License
 
 * MIT License Copyright (c) 2019 Brian-M-Code
